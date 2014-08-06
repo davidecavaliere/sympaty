@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\DemoBundle\Entity\Blog;
+namespace Acme\DemoBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

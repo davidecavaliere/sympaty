@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\DemoBundle\Entity\Blog;
+namespace Acme\DemoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -100,10 +100,10 @@ class Post
     /**
      * Set user
      *
-     * @param \Acme\DemoBundle\Entity\Blog\User $user
+     * @param \Acme\DemoBundle\Entity\User $user
      * @return Post
      */
-    public function setUser(\Acme\DemoBundle\Entity\Blog\User $user = null)
+    public function setUser(\Acme\DemoBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
