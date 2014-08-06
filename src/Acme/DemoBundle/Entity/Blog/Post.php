@@ -35,8 +35,13 @@ class Post
      */
     private $body;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+	 */
+	protected $user;
 
-    /**
+	/**
      * Get id
      *
      * @return integer 
@@ -90,5 +95,28 @@ class Post
     public function getBody()
     {
         return $this->body;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Acme\DemoBundle\Entity\Blog\User $user
+     * @return Post
+     */
+    public function setUser(\Acme\DemoBundle\Entity\Blog\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Acme\DemoBundle\Entity\Blog\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
