@@ -17,3 +17,10 @@ php app/console doctrine:database:create
 
 6 - update the database schema
 php app/console doctrine:schema:update --force
+
+7 - create a User Domain Entity
+8 - adding relation 1 -> * between User and Post
+9 - regenerate entities update schema
+
+php app/console doctrine:generate:entities Acme
+php app/console doctrine:schema:update --force
