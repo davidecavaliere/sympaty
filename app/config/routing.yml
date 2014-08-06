@@ -1,0 +1,5 @@
+acme_api:
+    resource: "@AcmeApiBundle/Controller/"
+    type:     annotation
+    prefix:   /api
+
