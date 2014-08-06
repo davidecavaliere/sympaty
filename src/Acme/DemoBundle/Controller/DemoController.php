@@ -2,6 +2,9 @@
 
 namespace Acme\DemoBundle\Controller;
 
+use Acme\DemoBundle\Entity\Post;
+use Acme\DemoBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +13,11 @@ use Acme\DemoBundle\Form\ContactType;
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DemoController extends Controller
 {
@@ -22,7 +30,38 @@ class DemoController extends Controller
         return array();
     }
 
-    /**
+	/**
+	 * @Route("/json")
+	 */
+	public function jsonAction() {
+
+		$encoders = array(new XmlEncoder(), new JsonEncoder());
+		$normalizer = new GetSetMethodNormalizer();
+		$normalizer->setIgnoredAttributes(array('user'));
+		$serializer = new Serializer(array($normalizer), $encoders);
+
+		$postRepo = $this->getDoctrine()->getRepository('AcmeDemoBundle:Post');
+		$userRepo = $this->getDoctrine()->getRepository('AcmeDemoBundle:User');
+		$em = $this->getDoctrine()->getManager();
+
+		$post = new Post();
+		$user = $userRepo->find(1);
+
+		$post->setTitle('Test Title');
+		$post->setBody('Hello body');
+		$post->setUser($user);
+
+		$em->persist($post);
+		$em->flush();
+
+		$posts = $postRepo->findAll();
+
+		$res = new Response($serializer->serialize($posts, 'json'));
+
+		return $res;
+	}
+
+	/**
      * @Route("/hello/{name}", name="_demo_hello")
      * @Template()
      */
